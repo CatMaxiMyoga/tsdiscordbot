@@ -1,0 +1,29 @@
+{
+  "name": "tsdiscordbot",
+  "version": "0.0.1",
+  "description": "Maxi's Typescript Discord Bot",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CatMaxiMyoga/tsdiscordbot.git"
+  },
+  "author": "Maxi Myoga",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CatMaxiMyoga/tsdiscordbot/issues"
+  },
+  "homepage": "https://github.com/CatMaxiMyoga/tsdiscordbot#readme",
+  "dependencies": {
+    "discord.js": "^14.16.3",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.1",
+    "tsx": "^4.19.2"
+  }
+}
