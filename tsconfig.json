@@ -16,7 +16,8 @@
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
     "outDir": "dist",
+    "esModuleInterop": true
   },
-  "include": ["src"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }

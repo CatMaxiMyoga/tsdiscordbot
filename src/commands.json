@@ -1,0 +1,113 @@
+[
+  {
+    "name": "embed",
+    "description": "Make the bot send an embed",
+    "options": [
+      {
+        "name": "description",
+        "description": "'\\n' for newline. '\\\\n' for '\\n' in the text. The description of the embed",
+        "type": 3,
+        "required": true,
+        "min_length": 1
+      },
+      {
+        "name": "timestamp",
+        "description": "Show the timestamp on the embed.",
+        "type": 3,
+        "required": true,
+        "choices": [
+          {"name": "No", "value": "false"},
+          {"name": "Current Time", "value": "now"},
+          {"name": "Custom Time", "value": "custom"}
+        ]
+      },
+      {
+        "name": "author",
+        "description": "The author on the embed",
+        "type": 3,
+        "required": false,
+        "min_length": 1
+      },
+      {
+        "name": "authoriconurl",
+        "description": "The author's icon on the embed",
+        "type": 3,
+        "required": false,
+        "min_length": 10
+      },
+      {
+        "name": "authorurl",
+        "description": "The author's URL on the embed",
+        "type": 3,
+        "required": false,
+        "min_length": 10
+      },
+      {
+        "name": "color",
+        "description": "The color of the embed in hex (#rrggbb)",
+        "type": 3,
+        "required": false,
+        "min_length": 7,
+        "max_length": 7
+      },
+      {
+        "name": "title",
+        "description": "The title of the embed",
+        "type": 3,
+        "required": false,
+        "min_length": 1
+      },
+      {
+        "name": "image",
+        "description": "The image of the embed",
+        "type": 11,
+        "required": false
+      },
+      {
+        "name": "thumbnail",
+        "description": "The thumbnail of the embed",
+        "type": 11,
+        "required": false
+      },
+      {
+        "name": "footer",
+        "description": "The footer text on the embed",
+        "type": 3,
+        "required": false,
+        "min_length": 1
+      },
+      {
+        "name": "footericonurl",
+        "description": "The footer icon on the embed",
+        "type": 3,
+        "required": false,
+        "min_length": 10
+      },
+      {
+        "name": "customtimestamp",
+        "description": "Custom Timestamp in 'dd/mm/yyyy hh:mm:ss' format",
+        "type": 3,
+        "required": false,
+        "min_length": 19,
+        "max_length": 19
+      }
+    ]
+  },
+  {
+    "name": "ping",
+    "description": "Replies with pong and the latency of the bot"
+  },
+  {
+    "name": "say",
+    "description": "Make the bot say something",
+    "options": [
+      {
+        "name": "message",
+        "description": "'\\n' for newline. '\\\\n' for '\\n' in the text. The message to say",
+        "type": 3,
+        "required": true,
+        "min_length": 5
+      }
+    ]
+  }
+]
