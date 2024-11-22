@@ -109,5 +109,80 @@
         "min_length": 5
       }
     ]
+  },
+  {
+    "name": "webhook",
+    "description": "Make a customizable webhook say something",
+    "options": [
+      {
+        "name": "attachment",
+        "description": "Use an attachment to set the webhook's avatar",
+        "type": 1,
+        "options": [
+          {
+            "name": "avatar",
+            "description": "The avatar of the webhook",
+            "type": 11,
+            "required": true
+          },
+          {
+            "name": "displayname",
+            "description": "The display name of the webhook",
+            "type": 3,
+            "required": true
+          },
+          {
+            "name": "message",
+            "description": "'\\n' for newline. '\\\\n' for '\\n' in the text. The message to say",
+            "type": 3,
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "url",
+        "description": "Use an URL to set the webhook's avatar",
+        "type": 1,
+        "options": [
+          {
+            "name": "avatar",
+            "description": "The avatar of the webhook",
+            "type": 3,
+            "required": true
+          },
+          {
+            "name": "displayname",
+            "description": "The display name of the webhook",
+            "type": 3,
+            "required": true
+          },
+          {
+            "name": "message",
+            "description": "'\\n' for newline. '\\\\n' for '\\n' in the text. The message to say",
+            "type": 3,
+            "required": true
+          }
+        ]
+      },
+      {
+        "name": "noavatar",
+        "description": "Use no avatar for the webhook",
+        "type": 1,
+        "options": [
+          {
+            "name": "displayname",
+            "description": "The display name of the webhook",
+            "type": 3,
+            "required": true
+          },
+          {
+            "name": "message",
+            "description": "'\\n' for newline. '\\\\n' for '\\n' in the text. The message to say",
+            "type": 3,
+            "required": true
+          }
+        ]
+      }
+    ]
   }
 ]
