@@ -1,5 +1,18 @@
 [
   {
+    "name": "avatar",
+    "description": "Get the avatar of a user or yourself.",
+    "options": [
+      {
+        "name": "user",
+        "description": "The user whose avatar you wanna get. Leave empty for yourself.",
+        "type": 6,
+        "required": false
+      }
+    ],
+    "contexts": [0]
+  },
+  {
     "name": "embed",
     "description": "Make the bot send an embed",
     "options": [
@@ -91,11 +104,28 @@
         "min_length": 19,
         "max_length": 19
       }
-    ]
+    ],
+    "contexts": [0]
   },
   {
     "name": "ping",
-    "description": "Replies with pong and the latency of the bot"
+    "description": "Replies with pong and the latency of the bot",
+    "contexts": [0]
+  },
+  {
+    "name": "purge",
+    "description": "Clears a certain amount of messages from the channel.",
+    "options": [
+      {
+        "name": "count",
+        "description": "{1-100} The amount of messages to delete. Ignores pinned messages!",
+        "type": 4,
+        "required": true,
+        "min_value": 1,
+        "max_value": 100
+      }
+    ],
+    "contexts": [0]
   },
   {
     "name": "say",
@@ -108,7 +138,8 @@
         "required": true,
         "min_length": 5
       }
-    ]
+    ],
+    "contexts": [0]
   },
   {
     "name": "webhook",
@@ -183,6 +214,7 @@
           }
         ]
       }
-    ]
+    ],
+    "contexts": [0]
   }
 ]

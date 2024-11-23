@@ -1,10 +1,15 @@
-import { CommandInteraction, CacheType, TextChannel, Webhook, WebhookType, EmbedBuilder, CommandInteractionOptionResolver } from 'discord.js'
+import {
+  CommandInteraction, CacheType, TextChannel, Webhook, WebhookType, EmbedBuilder,
+  CommandInteractionOptionResolver
+} from 'discord.js'
 
 const Command_Webhook = async (interaction: CommandInteraction<CacheType>) => {
+  const options = interaction.options as CommandInteractionOptionResolver;
+  
   if (!(interaction.channel instanceof TextChannel)) return;
+  
   const webhooks = await interaction.channel.fetchWebhooks()
   const webhook = webhooks.find(w => w.name === 'Meowhook🌸') as Webhook<WebhookType.Incoming>;
-  const options = interaction.options as CommandInteractionOptionResolver;
   const message = options.getString('message', true)
     .replace(/\\n/g, '\n')
     .replace(/\\\n/g, '\\n');
@@ -40,11 +45,15 @@ const Command_Webhook = async (interaction: CommandInteraction<CacheType>) => {
     }
     avatarURL = url;
   }
+
   await webhook.send({
     content: message,
     username: options.getString('displayname', true),
     avatarURL: avatarURL
   });
+
+  await interaction.reply({ content: 'Message sent!', ephemeral: true });
+  await interaction.deleteReply();
 };
 
 export default Command_Webhook;

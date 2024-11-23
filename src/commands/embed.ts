@@ -1,6 +1,10 @@
-import { CommandInteraction, CacheType, Attachment, EmbedBuilder } from 'discord.js'
+import {
+  CommandInteraction, CacheType, EmbedBuilder, CommandInteractionOptionResolver
+} from 'discord.js'
 
 const Command_Embed = async (interaction: CommandInteraction<CacheType>) => {
+  const options = interaction.options as CommandInteractionOptionResolver;
+  
   const ErrorEmbedBuilder = (error: string, errorInfo: string) => {
     return new EmbedBuilder({
       color: 0xff0000,
@@ -12,28 +16,22 @@ const Command_Embed = async (interaction: CommandInteraction<CacheType>) => {
       }
     });
   }
-
-  const getStrArg = (arg: string): string | undefined => {
-    return interaction.options.get(arg)?.value as string;
-  }
-  const getAttArg = (arg: string): Attachment | undefined => {
-    return interaction.options.get(arg)?.attachment;
-  }
-  const arg_description = interaction.options.get('description')?.value as string;
-  const arg_timestamp = interaction.options.get('timestamp')?.value as string;
-  const arg_author = getStrArg('author');
-  const arg_authorIconURL = getStrArg('authoriconurl');
-  const arg_authorURL = getStrArg('authorurl');
-  const arg_color = getStrArg('color');
-  const arg_title = getStrArg('title');
-  const arg_image = getAttArg('image');
-  const arg_thumbnail = getAttArg('thumbnail');
-  const arg_footer = getStrArg('footer');
-  const arg_footerIconURL = getStrArg('footericonurl');
-  const arg_customTimestamp = getStrArg('customtimestamp');
+  
+  const arg_description = options.getString('description', true);
+  const arg_timestamp = options.getString('timestamp', true);
+  const arg_author = options.getString('author');
+  const arg_authorIconURL = options.getString('authoriconurl') || undefined;
+  const arg_authorURL = options.getString('authorurl') || undefined;
+  const arg_color = options.getString('color');
+  const arg_title = options.getString('title');
+  const arg_image = options.getAttachment('image');
+  const arg_thumbnail = options.getAttachment('thumbnail');
+  const arg_footer = options.getString('footer');
+  const arg_footerIconURL = options.getString('footericonurl') || undefined;
+  const arg_customTimestamp = options.getString('customtimestamp');
 
   const isValidURL = (url: string | undefined) => {
-    if (url === undefined) { return true; }
+    if (!url) { return true; }
     try {
       new URL(url);
       return true;
@@ -43,7 +41,7 @@ const Command_Embed = async (interaction: CommandInteraction<CacheType>) => {
   }
 
   const isValidImageURL = (url: string | undefined): Promise<boolean> => {
-    if (url === undefined) {
+    if (!url) {
       return new Promise(resolve => resolve(true));
     }
     if (!isValidURL(url)) {
@@ -58,8 +56,8 @@ const Command_Embed = async (interaction: CommandInteraction<CacheType>) => {
     });
   };
 
-  const validateColor = (color: string | undefined) => {
-    if (color === undefined) { return undefined; }
+  const validateColor = (color: string | null) => {
+    if (!color) { return null; }
     try {
       const parsedColor = parseInt(color.slice(1), 16);
       return parsedColor;
@@ -68,8 +66,8 @@ const Command_Embed = async (interaction: CommandInteraction<CacheType>) => {
     }
   }
 
-  const isValidDate = (date: string | undefined): boolean => {
-    if (date === undefined) { return false; }
+  const isValidDate = (date: string | null): boolean => {
+    if (!date) { return false; }
 
     const match = date.match(/^(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2}):(\d{2})$/);
     if (!match) { return false; }

@@ -2,8 +2,10 @@ import 'dotenv/config';
 import { Client } from 'discord.js';
 import executeCommand from './execute-command';
 import deployCommands from './deploy-commands';
+import Command_Avatar from './commands/avatar';
 import Command_Embed from './commands/embed';
 import Command_Ping from './commands/ping';
+import Command_Purge from './commands/purge';
 import Command_Say from './commands/say';
 import Command_Webhook from './commands/webhook';
 
@@ -25,15 +27,23 @@ client.on('ready', (c) => {
 client.on('interactionCreate', async (interaction) => {
   if (interaction.isChatInputCommand() && interaction.isCommand()) {
     const command = interaction.commandName;
-    if (command === 'embed') {
-      await executeCommand(interaction, Command_Embed);
-    } else if (command === 'ping') {
-      await executeCommand(interaction, Command_Ping);
-    } else if (command === 'say') {
-      await executeCommand(interaction, Command_Say);
-    } else if (command === 'webhook') {
-      await executeCommand(interaction, Command_Webhook);
-    } // TODO: purge
+
+    switch (command) {
+      case 'avatar':
+        await executeCommand(interaction, Command_Avatar); break;
+      case 'embed':
+        await executeCommand(interaction, Command_Embed); break;
+      case 'ping':
+        await executeCommand(interaction, Command_Ping); break;
+      case 'purge':
+        await executeCommand(interaction, Command_Purge); break;
+      case 'say':
+        await executeCommand(interaction, Command_Say); break;
+      case 'webhook':
+        await executeCommand(interaction, Command_Webhook); break;
+      default:
+        console.error(`Unhandled command: ${command}`); break;
+    }
   }
 });
 

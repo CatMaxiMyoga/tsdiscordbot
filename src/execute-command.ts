@@ -38,7 +38,7 @@ const executeCommand = async (
     interaction.reply({ embeds: [embed], ephemeral: true });
   };
 
-  const restrictions = commExecRests[interaction.commandName];
+  const restrictions: CommExecRests[string] = commExecRests[interaction.commandName];
   const channels = restrictions?.channels ? restrictions.channels : undefined;
   const roles = restrictions?.roles ? restrictions.roles : undefined;
 
