@@ -1,9 +1,10 @@
+import Config from '../config';
 import {
   CommandInteraction, CacheType, CommandInteractionOptionResolver, TextChannel,
   EmbedBuilder
 } from 'discord.js'
 
-const Command_Purge = async (interaction: CommandInteraction<CacheType>) => {
+export default async (interaction: CommandInteraction<CacheType>, config: Config) => {
   const options = interaction.options as CommandInteractionOptionResolver;
   const amount = options.getInteger('count', true) + 1;
   const twoWeeks = 1.21096e9;
@@ -51,5 +52,3 @@ const Command_Purge = async (interaction: CommandInteraction<CacheType>) => {
   const reply = await interaction.channel.send({ embeds: [embed] });
   setTimeout(() => reply.delete(), 5000);
 };
-
-export default Command_Purge;

@@ -10,7 +10,7 @@
 - [ ] warn
 
 # Events
-- [ ] Channel Created
-- [ ] Channel Deleted
+- [x] Channel Created
+- [x] Channel Deleted
 - [ ] Member Joins
 - [ ] Member Leaves

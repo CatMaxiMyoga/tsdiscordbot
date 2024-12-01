@@ -1,7 +1,9 @@
 import 'dotenv/config';
-import { Client } from 'discord.js';
+import './deploy-commands';
+import { Client, Events, IntentsBitField } from 'discord.js';
 import executeCommand from './execute-command';
-import deployCommands from './deploy-commands';
+import Config, { getConfig } from './config';
+
 import Command_Avatar from './commands/avatar';
 import Command_Embed from './commands/embed';
 import Command_Ping from './commands/ping';
@@ -9,42 +11,60 @@ import Command_Purge from './commands/purge';
 import Command_Say from './commands/say';
 import Command_Webhook from './commands/webhook';
 
+import E_ChannelCreate from './events/channel/create';
+import E_ChannelDelete from './events/channel/delete';
 
-console.clear();
 
-deployCommands();
+(() => {
+  var config: Config;
 
-const client = new Client({
-  intents: [
-    'Guilds', 'GuildMessages', 'GuildMembers', 'MessageContent'
-  ]
-});
+  console.clear();
 
-client.on('ready', (c) => {
-  console.log(`Logged in as ${c.user.username}`);
-});
+  const client = new Client({
+    intents: [
+      IntentsBitField.Flags.Guilds,
+      IntentsBitField.Flags.GuildMessages,
+      IntentsBitField.Flags.GuildMembers,
+      IntentsBitField.Flags.MessageContent
+    ]
+  });
 
-client.on('interactionCreate', async (interaction) => {
-  if (interaction.isChatInputCommand() && interaction.isCommand()) {
-    const command = interaction.commandName;
+  client.on(Events.ClientReady, async (c) => {
+    console.log(`Logged in as ${c.user.username}`);
+    config = await getConfig(c);
+  });
 
-    switch (command) {
-      case 'avatar':
-        await executeCommand(interaction, Command_Avatar); break;
-      case 'embed':
-        await executeCommand(interaction, Command_Embed); break;
-      case 'ping':
-        await executeCommand(interaction, Command_Ping); break;
-      case 'purge':
-        await executeCommand(interaction, Command_Purge); break;
-      case 'say':
-        await executeCommand(interaction, Command_Say); break;
-      case 'webhook':
-        await executeCommand(interaction, Command_Webhook); break;
-      default:
-        console.error(`Unhandled command: ${command}`); break;
+  client.on(Events.ChannelCreate, async (channel) => {
+    E_ChannelCreate(config, channel);
+  });
+
+  client.on(Events.ChannelDelete, async (channel) => {
+    if (channel.isDMBased()) return;
+    E_ChannelDelete(config, channel);
+  })
+
+  client.on(Events.InteractionCreate, async (interaction) => {
+    if (interaction.isChatInputCommand() && interaction.isCommand()) {
+      const command = interaction.commandName;
+
+      switch (command) {
+        case 'avatar':
+          await executeCommand(interaction, config, Command_Avatar); break;
+        case 'embed':
+          await executeCommand(interaction, config, Command_Embed); break;
+        case 'ping':
+          await executeCommand(interaction, config, Command_Ping); break;
+        case 'purge':
+          await executeCommand(interaction, config, Command_Purge); break;
+        case 'say':
+          await executeCommand(interaction, config, Command_Say); break;
+        case 'webhook':
+          await executeCommand(interaction, config, Command_Webhook); break;
+        default:
+          console.error(`Unhandled command: ${command}`); break;
+      }
     }
-  }
-});
+  });
 
-client.login(process.env.DISCORD_TOKEN);
+  client.login(process.env.DISCORD_TOKEN);
+})();

@@ -1,0 +1,31 @@
+{
+  "$schema": "./config.schema.json",
+  "commandRestrictions": {
+    "embed": {
+      "roles": {
+        "type": "whitelist",
+        "value": ["1237741325462405223"]
+      }
+    },
+    "say": {
+      "roles": {
+        "type": "whitelist",
+        "value": ["1053019464075063327"]
+      }
+    },
+    "webhook": {
+      "roles": {
+        "type": "whitelist",
+        "value": ["1237741850706837524"]
+      }
+    }
+  },
+  "savedIDs": {
+    "Channels": {
+      "Log": {
+        "ChannelCreate": "1237772022595977227",
+        "ChannelDelete": "1237788270901854238"
+      }
+    }
+  }
+}

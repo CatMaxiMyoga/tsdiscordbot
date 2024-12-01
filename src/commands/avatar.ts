@@ -1,6 +1,9 @@
-import { CommandInteraction, CacheType, CommandInteractionOptionResolver, EmbedBuilder } from 'discord.js'
+import Config from '../config';
+import {
+  CommandInteraction, CacheType, CommandInteractionOptionResolver, EmbedBuilder
+} from 'discord.js'
 
-const Command_Avatar = async (interaction: CommandInteraction<CacheType>) => {
+export default async (interaction: CommandInteraction<CacheType>, config: Config) => {
   const options = interaction.options as CommandInteractionOptionResolver;
 
   const user = options.getUser('user', false) || interaction.user;
@@ -20,5 +23,3 @@ const Command_Avatar = async (interaction: CommandInteraction<CacheType>) => {
 
   await interaction.reply({ embeds: [embed] });
 };
-
-export default Command_Avatar;

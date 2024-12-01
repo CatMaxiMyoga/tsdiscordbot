@@ -24,7 +24,7 @@ const commands: Command[] = commandsJSON;
 
 const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN!);
 
-const deployCommands = async () => {
+(async () => {
   try {
     console.log('Started refreshing application (/) commands.');
 
@@ -37,6 +37,4 @@ const deployCommands = async () => {
   } catch (error) {
     console.error(error);
   }
-};
-
-export default deployCommands;
+})();

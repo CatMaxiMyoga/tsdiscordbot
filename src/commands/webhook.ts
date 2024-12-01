@@ -1,9 +1,10 @@
+import Config from '../config';
 import {
   CommandInteraction, CacheType, TextChannel, Webhook, WebhookType, EmbedBuilder,
   CommandInteractionOptionResolver
 } from 'discord.js'
 
-const Command_Webhook = async (interaction: CommandInteraction<CacheType>) => {
+export default async (interaction: CommandInteraction<CacheType>, config: Config) => {
   const options = interaction.options as CommandInteractionOptionResolver;
   
   if (!(interaction.channel instanceof TextChannel)) return;
@@ -55,5 +56,3 @@ const Command_Webhook = async (interaction: CommandInteraction<CacheType>) => {
   await interaction.reply({ content: 'Message sent!', ephemeral: true });
   await interaction.deleteReply();
 };
-
-export default Command_Webhook;

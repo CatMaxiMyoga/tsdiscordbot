@@ -1,31 +1,18 @@
 import { CacheType, CommandInteraction, EmbedBuilder, GuildMember } from "discord.js";
-import commExecRestsJSON from './comm_exec_rest.json';
+import Config from "./config";
 
-
-interface CommExecRests {
-  [commandName: string]: {
-    channels?: {
-      type: 'whitelist' | 'blacklist';
-      value: number[];
-    };
-    roles?: {
-      type: 'whitelist' | 'blacklist';
-      value: number[];
-    };
-  };
-}
-
-const commExecRests: CommExecRests = commExecRestsJSON as CommExecRests;
-delete commExecRests.$schema
 
 const executeCommand = async (
   interaction: CommandInteraction<CacheType>,
-  func: (interaction: CommandInteraction<CacheType>) => Promise<void>
+  config: Config,
+  func: (interaction: CommandInteraction<CacheType>, config: Config) => Promise<void>
 ) => {
+  const commandRestrictions = config.commandRestrictions;
+
   const sendRestrictionEmbed = (error: "Channel" | "Role") => {
     const description = error === "Channel"
-      ? "You can't use this command in this channel."
-      : "You don't have the required role to use this command.";
+      ? "This command is not allowed in this channel."
+      : "You are not authorized to use this command.";
     const embed = new EmbedBuilder({
       color: 0xff0000,
       title: `${error}-Restriction`,
@@ -38,17 +25,17 @@ const executeCommand = async (
     interaction.reply({ embeds: [embed], ephemeral: true });
   };
 
-  const restrictions: CommExecRests[string] = commExecRests[interaction.commandName];
+  const restrictions = commandRestrictions[interaction.commandName];
   const channels = restrictions?.channels ? restrictions.channels : undefined;
   const roles = restrictions?.roles ? restrictions.roles : undefined;
 
   if (channels) {
     if (channels.type === 'whitelist') {
-      if (!channels.value.includes(Number(interaction.channelId))) {
+      if (!channels.value.includes(interaction.channelId)) {
         return sendRestrictionEmbed("Channel");
       }
     } else if (channels.type === 'blacklist') {
-      if (channels.value.includes(Number(interaction.channelId))) {
+      if (channels.value.includes(interaction.channelId)) {
         return sendRestrictionEmbed("Channel");
       }
     }
@@ -58,7 +45,7 @@ const executeCommand = async (
     if (!interaction.guild || !(interaction.member instanceof GuildMember)) {
       return sendRestrictionEmbed("Role");
     }
-    const memberRoles = interaction.member.roles.cache.map(role => Number(role.id));
+    const memberRoles = interaction.member.roles.cache.map(r => r.id);
     if (roles.type === 'whitelist') {
       if (!roles.value.some(role => memberRoles.includes(role))) {
         return sendRestrictionEmbed("Role");
@@ -70,7 +57,7 @@ const executeCommand = async (
     }
   }
 
-  await func(interaction);
+  await func(interaction, config);
 }
 
 export default executeCommand;
