@@ -1,8 +1,13 @@
 import Config from "../../config";
 import {
-  APIEmbedField, CategoryChannel, ChannelType, EmbedBuilder, NewsChannel, NonThreadGuildBasedChannel,
+  APIEmbedField,
+  CategoryChannel,
+  ChannelType,
+  EmbedBuilder,
+  NewsChannel,
+  NonThreadGuildBasedChannel,
   TextChannel,
-  VoiceChannel
+  VoiceChannel,
 } from "discord.js";
 
 export default async (config: Config, channel: NonThreadGuildBasedChannel) => {
@@ -35,7 +40,8 @@ export default async (config: Config, channel: NonThreadGuildBasedChannel) => {
     }
   })();
 
-  const name = channelType === 'Category' ? channel.name.toLowerCase() : channel.name;
+  const name =
+    channelType === "Category" ? channel.name.toLowerCase() : channel.name;
 
   const fields: APIEmbedField[] = [
     { name: "Name", value: name, inline: true },
@@ -49,22 +55,32 @@ export default async (config: Config, channel: NonThreadGuildBasedChannel) => {
 
   if (channel.parent) {
     fields.splice(0, 0, {
-      name: "Category", value: channel.parent.name.toLowerCase(), inline: false
+      name: "Category",
+      value: channel.parent.name.toLowerCase(),
+      inline: false,
     });
   }
-  
+
   if (!(channel instanceof CategoryChannel)) {
     fields.splice(-2, 0, {
-      name: "NSFW", value: channel.nsfw ? "Yes" : "No", inline: true
-    })
+      name: "NSFW",
+      value: channel.nsfw ? "Yes" : "No",
+      inline: true,
+    });
     if (!(channel instanceof VoiceChannel) && channel.topic) {
-      fields.splice(-2, 0, { name: "Topic", value: channel.topic, inline: false });
+      fields.splice(-2, 0, {
+        name: "Topic",
+        value: channel.topic,
+        inline: false,
+      });
     }
   }
 
   if (channel instanceof TextChannel || channel instanceof NewsChannel) {
     fields.splice(-2, 0, {
-      name: "Messages", value: channel.messages.cache.size.toString(), inline: true
+      name: "Messages",
+      value: channel.messages.cache.size.toString(),
+      inline: true,
     });
   }
 
@@ -77,3 +93,4 @@ export default async (config: Config, channel: NonThreadGuildBasedChannel) => {
 
   await config.savedItems.Channels.Log.ChannelDelete.send({ embeds: [embed] });
 };
+

@@ -1,10 +1,18 @@
 import Config from '../config';
 import {
-  CommandInteraction, CacheType, TextChannel, Webhook, WebhookType, EmbedBuilder,
+  CommandInteraction,
+  CacheType,
+  TextChannel,
+  Webhook,
+  WebhookType,
+  EmbedBuilder,
   CommandInteractionOptionResolver
 } from 'discord.js'
 
-export default async (interaction: CommandInteraction<CacheType>, config: Config) => {
+export default async (
+  interaction: CommandInteraction<CacheType>,
+  config: Config
+) => {
   const options = interaction.options as CommandInteractionOptionResolver;
   
   if (!(interaction.channel instanceof TextChannel)) return;

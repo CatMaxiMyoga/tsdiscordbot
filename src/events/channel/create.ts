@@ -1,5 +1,10 @@
 import Config from "../../config";
-import { APIEmbedField, ChannelType, EmbedBuilder, NonThreadGuildBasedChannel } from "discord.js";
+import {
+  APIEmbedField,
+  ChannelType,
+  EmbedBuilder,
+  NonThreadGuildBasedChannel
+} from "discord.js";
 
 export default async (config: Config, channel: NonThreadGuildBasedChannel) => {
   const created = (() => {

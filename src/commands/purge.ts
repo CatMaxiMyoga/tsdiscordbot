@@ -1,10 +1,16 @@
 import Config from '../config';
 import {
-  CommandInteraction, CacheType, CommandInteractionOptionResolver, TextChannel,
+  CommandInteraction,
+  CacheType,
+  CommandInteractionOptionResolver,
+  TextChannel,
   EmbedBuilder
 } from 'discord.js'
 
-export default async (interaction: CommandInteraction<CacheType>, config: Config) => {
+export default async (
+  interaction: CommandInteraction<CacheType>,
+  config: Config
+) => {
   const options = interaction.options as CommandInteractionOptionResolver;
   const amount = options.getInteger('count', true) + 1;
   const twoWeeks = 1.21096e9;

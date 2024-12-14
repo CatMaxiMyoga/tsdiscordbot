@@ -24,7 +24,8 @@
     "Channels": {
       "Log": {
         "ChannelCreate": "1237772022595977227",
-        "ChannelDelete": "1237788270901854238"
+        "ChannelDelete": "1237788270901854238",
+        "ChannelUpdate": "1317230938404552784"
       }
     }
   }

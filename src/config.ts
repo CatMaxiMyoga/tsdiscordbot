@@ -7,6 +7,7 @@ interface SavedItems {
     Log: {
       ChannelCreate: TextChannel;
       ChannelDelete: TextChannel;
+      ChannelUpdate: TextChannel;
     }
   }
 }
@@ -43,7 +44,8 @@ const getConfig = async (client: Client<true>): Promise<Config> => {
       Channels: {
         Log: {
           ChannelCreate: await getTChannel(ids.Channels.Log.ChannelCreate),
-          ChannelDelete: await getTChannel(ids.Channels.Log.ChannelDelete)
+          ChannelDelete: await getTChannel(ids.Channels.Log.ChannelDelete),
+          ChannelUpdate: await getTChannel(ids.Channels.Log.ChannelUpdate)
         }
       }
     }

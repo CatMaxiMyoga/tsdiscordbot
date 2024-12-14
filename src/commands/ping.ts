@@ -1,7 +1,14 @@
 import Config from '../config';
-import { CacheType, CommandInteraction, EmbedBuilder } from 'discord.js';
+import {
+  CacheType,
+  CommandInteraction,
+  EmbedBuilder
+} from 'discord.js';
 
-export default async (interaction: CommandInteraction<CacheType>, config: Config) => {
+export default async (
+  interaction: CommandInteraction<CacheType>,
+  config: Config
+) => {
   const embed = new EmbedBuilder({
     description: 'Pong!',
     color: 0x0099ff,

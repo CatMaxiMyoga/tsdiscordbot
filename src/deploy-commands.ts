@@ -20,7 +20,11 @@ interface Command {
   options?: Option[];
 }
 
-const commands: Command[] = commandsJSON;
+interface CommandsJSON {
+  commands: Command[]
+}
+
+const commands: Command[] = (commandsJSON as unknown as CommandsJSON).commands;
 
 const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN!);
 

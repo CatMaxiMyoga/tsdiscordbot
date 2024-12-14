@@ -1,9 +1,15 @@
 import Config from '../config';
 import {
-  CommandInteraction, CacheType, CommandInteractionOptionResolver, EmbedBuilder
+  CommandInteraction,
+  CacheType,
+  CommandInteractionOptionResolver,
+  EmbedBuilder
 } from 'discord.js'
 
-export default async (interaction: CommandInteraction<CacheType>, config: Config) => {
+export default async (
+  interaction: CommandInteraction<CacheType>,
+  config: Config
+) => {
   const options = interaction.options as CommandInteractionOptionResolver;
 
   const user = options.getUser('user', false) || interaction.user;
