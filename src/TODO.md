@@ -1,4 +1,7 @@
-# Commands
+# ToDos
+
+## Commands
+
 - [x] ping
 - [x] say
 - [x] embed
@@ -9,7 +12,8 @@
 - [ ] reaction_roles
 - [ ] warn
 
-# Events
+## Events
+
 - [x] Channel Created
 - [x] Channel Deleted
 - [ ] Member Joins
