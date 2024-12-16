@@ -9,7 +9,6 @@
 - [x] purge
 - [ ] help
 - [x] avatar
-- [ ] reaction_roles
 - [ ] warn
 
 ## Events
@@ -18,3 +17,8 @@
 - [x] Channel Deleted
 - [ ] Member Joins
 - [ ] Member Leaves
+
+## Dropped
+
+- commands/reactionroles
+  - Reason: Discord's MessageReactionAdd event only gets called for cached messages.

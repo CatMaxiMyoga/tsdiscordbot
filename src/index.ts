@@ -30,7 +30,7 @@ import E_ChannelUpdate from "./events/channel/update";
   client.on(Events.InteractionCreate, async (interaction) => {
     if (!interaction.isChatInputCommand()) return;
     if (!interaction.isCommand()) return;
-    E_CommandInteraction(config, interaction);
+    E_CommandInteraction(interaction, config);
   });
 
   client.on(Events.ChannelCreate, async (channel) => {

@@ -1,41 +1,77 @@
-import { CacheType, CommandInteraction } from "discord.js";
-import executeCommand from "../execute-command";
+import {
+  CacheType,
+  CommandInteraction,
+  EmbedBuilder,
+  GuildMember
+} from "discord.js";
 import Config from "../config";
 
-import Command_Avatar from "../commands/avatar";
-import Command_Embed from "../commands/embed";
-import Command_Ping from "../commands/ping";
-import Command_Purge from "../commands/purge";
-import Command_Say from "../commands/say";
-import Command_Webhook from "../commands/webhook";
-
 export default async (
-  config: Config,
-  interaction: CommandInteraction<CacheType>
+  interaction: CommandInteraction<CacheType>,
+  config: Config
 ) => {
   const command = interaction.commandName;
+  const command_restrictions = config.commandRestrictions;
 
-  switch (command) {
-    case "avatar":
-      await executeCommand(interaction, config, Command_Avatar);
-      break;
-    case "embed":
-      await executeCommand(interaction, config, Command_Embed);
-      break;
-    case "ping":
-      await executeCommand(interaction, config, Command_Ping);
-      break;
-    case "purge":
-      await executeCommand(interaction, config, Command_Purge);
-      break;
-    case "say":
-      await executeCommand(interaction, config, Command_Say);
-      break;
-    case "webhook":
-      await executeCommand(interaction, config, Command_Webhook);
-      break;
-    default:
-      console.error(`Unhandled command: ${command}`);
-      break;
+  const sendRestrictionEmbed = (error: "Channel" | "Role") => {
+    const description = error === "Channel"
+      ? "This command is not allowed in this channel."
+      : "You are not authorized to use this command.";
+    const embed = new EmbedBuilder({
+      color: 0xff0000,
+      title: `${error}-Restriction`,
+      description: description,
+      footer: {
+        text: `${interaction.user.username} | ${interaction.user.displayName}`,
+        iconURL: interaction.user.displayAvatarURL()
+      }
+    });
+    interaction.reply({ embeds: [embed], ephemeral: true });
+  };
+
+  const restrictions = command_restrictions[command];
+  const channels = restrictions?.channels ? restrictions.channels : undefined;
+  const roles = restrictions?.roles ? restrictions.roles : undefined;
+
+  if (channels) {
+    if (channels.type === 'whitelist') {
+      if (!channels.value.includes(interaction.channelId)) {
+        return sendRestrictionEmbed("Channel");
+      }
+    } else if (channels.type === 'blacklist') {
+      if (channels.value.includes(interaction.channelId)) {
+        return sendRestrictionEmbed("Channel");
+      }
     }
-}
+  }
+
+  if (roles) {
+    if (!interaction.guild || !(interaction.member instanceof GuildMember)) {
+      return sendRestrictionEmbed("Role");
+    }
+    const interaction_member: GuildMember = interaction.member;
+    const memberRoles = interaction_member.roles.cache.map(r => r.id);
+    if (roles.type === 'whitelist') {
+      if (!roles.value.some(role => memberRoles.includes(role))) {
+        return sendRestrictionEmbed("Role");
+      }
+    } else if (roles.type === 'blacklist') {
+      if (roles.value.some(role => memberRoles.includes(role))) {
+        return sendRestrictionEmbed("Role");
+      }
+    }
+  }
+
+  try {
+    const module = await import(`../commands/${command}`);
+    await module.default(interaction, config);
+  } catch (error) {
+    console.error(error);
+    await interaction.reply({ embeds: [{
+      title: "Error",
+      description: "Something went wrong while fetching the function " +
+                   "to process this command.",
+      color: 0xff0000
+    }], ephemeral: true });
+  }
+};
