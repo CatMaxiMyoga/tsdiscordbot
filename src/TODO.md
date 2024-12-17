@@ -14,6 +14,7 @@
 ## Events
 
 - [x] Channel Created
+- [x] Channel Updated
 - [x] Channel Deleted
 - [ ] Member Joins
 - [ ] Member Leaves
