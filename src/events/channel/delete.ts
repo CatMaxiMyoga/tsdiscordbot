@@ -1,4 +1,4 @@
-import Config from "../../config";
+import Config from "../../resources/config";
 import {
   APIEmbedField,
   CategoryChannel,

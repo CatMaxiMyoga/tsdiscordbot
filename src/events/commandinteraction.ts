@@ -4,7 +4,7 @@ import {
   EmbedBuilder,
   GuildMember
 } from "discord.js";
-import Config from "../config";
+import Config from "../resources/config";
 
 export default async (
   interaction: CommandInteraction<CacheType>,

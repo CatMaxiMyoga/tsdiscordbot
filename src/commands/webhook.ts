@@ -1,11 +1,10 @@
-import Config from '../config';
+import Config from '../resources/config';
 import {
   CommandInteraction,
   CacheType,
   TextChannel,
   Webhook,
   WebhookType,
-  EmbedBuilder,
   CommandInteractionOptionResolver
 } from 'discord.js'
 
@@ -25,7 +24,7 @@ export default async (
   
   const subCommand = options.getSubcommand(true);
 
-  let avatarURL: string | undefined = undefined;
+  let avatarURL: string;
   if (subCommand === 'attachment') {
     const attachment = options.getAttachment('avatar', true);
     avatarURL = attachment.url;
@@ -40,16 +39,15 @@ export default async (
       });
     };
     if (!isValidImageURL()) {
-      const errorEmbed = new EmbedBuilder({
+      await interaction.reply({ embeds: [{
         title: 'Invalid URL',
         description: `The provided URL for the avatar is not valid.\n${url}`,
         color: 0xff0000,
         footer: {
           text: `${interaction.user.username} | ${interaction.user.displayName}`,
-          iconURL: interaction.user.displayAvatarURL()
+          icon_url: interaction.user.displayAvatarURL()
         }
-      });
-      await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
+      }], ephemeral: true });
       return;
     }
     avatarURL = url;
@@ -58,7 +56,7 @@ export default async (
   await webhook.send({
     content: message,
     username: options.getString('displayname', true),
-    avatarURL: avatarURL
+    avatarURL: avatarURL!
   });
 
   await interaction.reply({ content: 'Message sent!', ephemeral: true });

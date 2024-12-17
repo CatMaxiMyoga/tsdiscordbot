@@ -9,7 +9,7 @@ import {
   TextChannel,
   VoiceChannel,
 } from "discord.js";
-import Config from "../../config";
+import Config from "../../resources/config";
 
 export default async (
   config: Config,

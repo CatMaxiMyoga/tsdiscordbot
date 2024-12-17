@@ -1,7 +1,7 @@
 import "dotenv/config";
 import "./deploy-commands";
-import { Client, Events, IntentsBitField, MessageReaction, Partials } from "discord.js";
-import Config, { getConfig } from "./config";
+import { Client, Events, IntentsBitField } from "discord.js";
+import Config, { getConfig } from "./resources/config";
 
 import E_CommandInteraction from "./events/commandinteraction";
 import E_ChannelCreate from "./events/channel/create";

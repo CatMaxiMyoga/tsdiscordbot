@@ -1,30 +1,9 @@
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v10';
 import * as dotenv from 'dotenv';
-import commandsJSON from './commands.json';
+import commands from './resources/commands';
 
 dotenv.config();
-
-interface Option {
-  name: string;
-  description: string;
-  type: number;
-  required?: boolean;
-  choices?: { name: string; value: string | number }[];
-  options?: Option[];
-}
-
-interface Command {
-  name: string;
-  description: string;
-  options?: Option[];
-}
-
-interface CommandsJSON {
-  commands: Command[]
-}
-
-const commands: Command[] = (commandsJSON as unknown as CommandsJSON).commands;
 
 const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN!);
 
